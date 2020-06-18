@@ -168,6 +168,9 @@ class SceneGen{
         forgot.enter(msg => {
             msg.reply('Введи свою почту cнова')
         })
+        forgot.on('text', msg => {
+            console.log(msg)
+        })
     
         return forgot
     }
