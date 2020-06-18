@@ -83,7 +83,7 @@ class SceneGen{
                 }
             }
             else if (!currEmail.includes('@')){
-                await ctx.reply('Your email bad')
+                await ctx.reply('Не коректный email')
                 await ctx.scene.reenter()
             } else{
                 await ctx.reply('Такой email уже существует, для входа введи команду /LOG')
@@ -115,7 +115,7 @@ class SceneGen{
                 });
                 await ctx.scene.leave()
             } else{
-                await ctx.reply('Your password length < 8')
+                await ctx.reply('Длинна твоего пароля меньше 8')
                 await ctx.scene.reenter()
             }
         });
