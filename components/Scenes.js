@@ -20,7 +20,7 @@ let user_data = {}
 let log_data = {}
 let users = require("../DataBase/users.json");
 
-let transporter = nodemailer.createTransport("SMTP", {
+let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     service: 'gmail',
     port: 465,
