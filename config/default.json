@@ -1,0 +1,20 @@
+{
+    "Admin": {
+        "email": "kirill.novoseletskii2003@gmail.com",
+        "password": "JesusGod1290"
+    },
+    "CURS_DATA" : {
+        "links": [
+            "https://youtu.be/CyhsM0P4e-g", 
+            "https://youtu.be/MmytJltmfQY", 
+            "https://youtu.be/8FHtgv4UQBg", 
+            "https://youtu.be/ICgQ1H_6fkM", 
+            "https://youtu.be/p5Yz6xoF15M",
+            "https://youtu.be/9Q8woixr3PU",
+            "https://youtu.be/R5Ae90vsKkU"
+        ]
+    },
+    "CURS_PASS": "HELLO",
+    "KEY": "1078770227:AAGi7qdph-cvuq0KjjnK--wAvH4LmVAv5ow",
+    "LOCAL": "192.168.43.232:63333"
+}
