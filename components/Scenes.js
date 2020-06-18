@@ -73,6 +73,7 @@ class SceneGen{
                     await ctx.scene.enter('done');
                 } catch (error) {
                     console.log('+++++NO EMAIL+++++')
+                    console.log(error)
                     await ctx.reply('Вашего email не существует\nвведите верный email');
                     await ctx.scene.reenter()
                 }
