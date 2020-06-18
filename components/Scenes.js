@@ -106,7 +106,7 @@ class SceneGen{
                 user_data._password = currPass
                 user_data._teleId = ctx.message.from.id
                 user_data.n = 0
-                user_data = withHiddenProps(user_data)
+                // user_data = withHiddenProps(user_data)
                 users.push(user_data); 
                 fs.writeFile("../DataBase/users.json", JSON.stringify(users, null, '    '), err => { 
                     // Checking for errors 
