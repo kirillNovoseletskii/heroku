@@ -25,6 +25,7 @@ let transporter = nodemailer.createTransport({
     service: 'gmail',
     port: 465,
     secure: true,
+    requireTLS: true,
     auth: {
         user: config.get('Admin.email'),
         pass: config.get('Admin.password')
