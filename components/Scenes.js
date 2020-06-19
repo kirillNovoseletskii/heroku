@@ -3,6 +3,8 @@ const fs = require('fs');
 const config = require('config')
 const nodemailer = require('nodemailer');
 const { Telegraf } = require('telegraf')
+var path = require('path');
+
 const {Extra, Markup, Stage, session} = Telegraf
 
 let user_data = {}

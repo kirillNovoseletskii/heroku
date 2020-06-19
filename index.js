@@ -1,6 +1,7 @@
 // libraries
 const db = require('./DataBase/users.json')
 const nodemailer = require("nodemailer");
+const express = require('express')
 const { Telegraf } = require('telegraf')
 const config = require('config')
 const ScenesClass = require('./components/Scenes')
@@ -58,5 +59,11 @@ bot.command('stop', msg => {
     msg.reply('Bot stoped')
     msg.scene.leave()
 })
+const app = express()
+const PORT = 3001 || process.env.PORT
+app.get('', (reg, res) => {
+    res.send('TELEGRAMM')
+})
+app.listen(PORT, () => console.log(PORT))
 // console.log('hello heroku')
 bot.launch()
