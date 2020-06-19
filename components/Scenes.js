@@ -21,16 +21,15 @@ let log_data = {}
 let users = require("../DataBase/users.json");
 
 let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    service: 'gmail',
-    port: 465,
-    secure: true,
-    requireTLS: true,
+    pool: true,
+    service: 'Gmail',
     auth: {
         user: config.get('Admin.email'),
-        pass: config.get('Admin.password')
+        type: 'OAuth2',
+        accessToken: "ya29.a0AfH6SMCOxIXtPNeUzV7qdBxTKVt_T-gCPzH4HyulspF7LV3S0HaknthWWWikaVvPUvYOxvchWw8aCb5RlOz6GrD0kic1uZ0VVxx7JTniv4RKxyvMUZZkXH4qZx3uG8VodgrKCS-MKqRL7HwkiHqmOFzqpnSqLfaDOqc"
       }
 });
+
 class SceneGen{
     sendVidios() {
         const sender = new Scene('sendVidios')
