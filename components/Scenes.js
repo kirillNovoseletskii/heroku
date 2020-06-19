@@ -5,17 +5,6 @@ const nodemailer = require('nodemailer');
 const { Telegraf } = require('telegraf')
 const {Extra, Markup, Stage, session} = Telegraf
 
-// hidden props
-const withHiddenProps = (target, prefix='_') => {
-    return new Proxy(target, {
-        has: (obj, prop) => (prop in obj) && (!prop.startsWith(prefix)),
-        ownKeys: obj => Reflectf.ownKeys(obj)
-            .filter(p => !p.startsWith(prefix)),
-        get: (obj, prop, resiver) => {
-                return (prop in resiver) ? obj[prop] : undefined
-            }
-        })
-}
 let user_data = {}
 let log_data = {}
 let users = require("../DataBase/users.json");
@@ -33,7 +22,16 @@ let transporter = nodemailer.createTransport({
         clientSecret: 'nF0_2UqoR6L8SOyj8kFpqJIK',
       }
 });
-
+transporter.verify((e, s) => {
+    if (e) return console.log(e)
+    console.log(s)
+})
+const sendEmail = rand_pass => transporter.sendMail({
+    from: config.get('Admin.email'),
+    to: currEmail,
+    subject: "Message from Node js",
+    text: `Ваш проверочный код - ${rand_pass}`,
+})
 class SceneGen{
     sendVidios() {
         const sender = new Scene('sendVidios')
@@ -68,12 +66,7 @@ class SceneGen{
 
             if (currEmail.includes('@') && secEmail.length < 1) {
                 try {
-                    await transporter.sendMail({
-                        from: config.get('Admin.email'),
-                        to: currEmail,
-                        subject: "Message from Node js",
-                        text: `Ваш проверочный код - ${rand_pass}`,
-                      })
+                    await sendEmail(rand_pass)
                     log_data.email =  currEmail
                     await ctx.reply(`Мы отправили письмо с проверочный паролем на вашу почту, введите его(${rand_pass})`);
                     log_data.rand = rand_pass
