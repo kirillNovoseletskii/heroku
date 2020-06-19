@@ -10,17 +10,13 @@ let log_data = {}
 let users = require("../DataBase/users.json");
 
 let transporter = nodemailer.createTransport({
-    service: "Gmail",
+    host: "smtp.yandex.ru",
+    port: 465,
+    secure: true,
     auth: {
-        type: 'OAuth2',
-        user: config.get('Admin.email'),
-        clientSecret: 'nF0_2UqoR6L8SOyj8kFpqJIK',
-        refreshToken: 
-            '1//0fNgZa4Ij98VdCgYIARAAGA8SNwF-L9Ir_Tnl7WMLeNBKvBzdHt6fwYxUXHIQDNwS5Om4v-DwdCDboQHRvkbt2eryQ_DvCw23kdQ',
-        clientId:
-            '671897396582-3266n9ohgifb4bq7mi4fvdtob017np00.apps.googleusercontent.com',
-       },
-      from: `Mailer Test <${config.get('Admin.email')}>`
+        user: "jordan0brun0@yandex.ru",
+        pass: "2Schgetb92qzKjg"
+    }
 });
 
 transporter.verify((e, s) => {
