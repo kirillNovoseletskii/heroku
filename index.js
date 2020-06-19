@@ -9,6 +9,7 @@ const CURS = config.get('CURS_PASS')
 const TOCKEN = config.get('KEY')
 const {Extra, Markup, Stage, session} = Telegraf
 user_data = {} // data of single user
+var port = process.env.PORT || 8080;
 let users = require("./DataBase/users.json");
 // Scenes
 const currGen = new ScenesClass()
