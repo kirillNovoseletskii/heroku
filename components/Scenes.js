@@ -11,24 +11,31 @@ let users = require("../DataBase/users.json");
 
 let transporter = nodemailer.createTransport({
     pool: true,
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
         type: 'OAuth2',
         user: config.get('Admin.email'),
         accessToken: 
-            "ya29.a0AfH6SMD5pLAffxCT-E4b7Im8eKNMFIwi8Ysg8zh2OjcXxR-jo_hrpYE70n9byP9lJYRtFse0iUjEjMi9rqetN9919nPrYG0b7F6fYZacB4SoPqInAOFn2AWimNMgrVB_iPZ7vzHq1ScssMr6uNu-HXwjRmYPL60Zdao",
+            "ya29.a0AfH6SMB6iptV9mriZj8lPIS1bjo9u7ORT_kMM59pkwc5gz3KkbpabWMCnnv4ZXcFNX0e_Y5FxZK8X4c7700ycYHE83vZ5GotbZWg3dtW14VEpgMwN0_TfIQNVnf65O2ksESRcBpvLQ3YR_vnFiS-HbkiPN_p7tDkjKs",
         refreshToken: 
-            '1//04pME5AxpY3yKCgYIARAAGAQSNwF-L9IrHAxRVNziC_qwR_AdbrJUJ4WB4MZzS78lCxWQQC6Nh1PhC_9opcA1GLs0bJcybPUVD58',
+            '1//04JGhz-fRuTfXCgYIARAAGAQSNwF-L9Irg6l94alIr1dcRkcBQ3Rmnlu3LG9F8fcs1iOUVWQciBahQ-ojnygIt6np5Jrvvq-uPOM',
         clientId:
             '671897396582-3266n9ohgifb4bq7mi4fvdtob017np00.apps.googleusercontent.com',
         clientSecret: 'nF0_2UqoR6L8SOyj8kFpqJIK',
-        accessUrl: "https://oauth2.googleapis.com/token"
+        accessUrl: "https://oauth2.googleapis.com/token",
        },
       from: `Mailer Test <${config.get('Admin.email')}>`
 });
 transporter.verify((e, s) => {
     if (e) return console.log("ERORR:", e)
-    console.log(s)
+    transporter.on('token', token => {
+        console.log('A new access token was generated');
+        console.log('User: %s', token.user);
+        console.log('Access Token: %s', token.accessToken);
+        console.log('Expires: %s', new Date(token.expires));
+    });
 })
 const sendEmail = (rand_pass, currEmail) => transporter.sendMail({
     from: config.get('Admin.email'),
@@ -39,7 +46,25 @@ const sendEmail = (rand_pass, currEmail) => transporter.sendMail({
 class SceneGen{
     sendVidios() {
         const sender = new Scene('sendVidios')
-
+        let n = 0;
+        sender.command('stop',async msg => {
+            // fs.writeFile("./DataBase/users.json", JSON.stringify(users, null, '    '), err => { 
+            //     // Checking for errors 
+            //     if (err) throw err;  
+            //     console.log("Done writing"); // Success 
+            // });
+            // console.log(users.filter(i => i._id === ))
+            await msg.scene.leave()
+        })
+        sender.enter( msg => {
+            n = users.filter(i => i._id === msg.message.from.id)
+            console.log(n)
+            setTimeout(async () => {
+                await msg.reply('recdr')
+                n++
+                await msg.scene.reenter()
+            }, 2000)
+        })
         return sender
     }
     donePass () {
@@ -72,7 +97,7 @@ class SceneGen{
                 try {
                     await sendEmail(rand_pass, currEmail)
                     log_data.email =  currEmail
-                    await ctx.reply(`Мы отправили письмо с проверочный паролем на вашу почту, введите его(${rand_pass})`);
+                    await ctx.reply(`Мы отправили письмо с проверочный паролем на вашу почту, введите его`);
                     log_data.rand = rand_pass
                     await ctx.scene.enter('done');
                 } catch (error) {
@@ -104,7 +129,7 @@ class SceneGen{
             if (currPass.length >= 8){
                 await ctx.reply('Чтобы войти напиши команду /LOG')               
                 user_data._password = currPass
-                user_data._teleId = ctx.message.from.id
+                user_datateleId = ctx.message.from.id
                 user_data.n = 0
                 // user_data = withHiddenProps(user_data)
                 users.push(user_data); 
@@ -169,13 +194,22 @@ class SceneGen{
     }
     forgotPass() {
         const forgot = new Scene('forgot');
+        const rand_pass  = Math.random().toString(36).slice(-4);
         forgot.enter(msg => {
             msg.reply('Введи свою почту cнова')
         })
-        forgot.on('text', msg => {
-            console.log(msg)
+        forgot.on('text',async msg => {
+            const usrMail = users.filter(i => i.email === msg.message.text)
+            if (usrMail.length < 1) {
+                await msg.reply('Такого пользователя нет❌, зарегистрируйся используя команду /REG\nили компанду /resend для повторного ввода')
+                await msg.scene.leave()
+            } else {
+                await msg.reply(`Мы отправили пароль тебе на почту\n/LOG для входа`)
+                console.log(usrMail[0].email)
+                await sendEmail(usrMail[0]._password, usrMail[0].email)   
+                await msg.scene.leave()
+            }
         })
-    
         return forgot
     }
 }
