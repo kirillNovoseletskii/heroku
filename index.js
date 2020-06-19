@@ -46,7 +46,7 @@ bot.command('LOG', async ctx =>{
 
 bot.command('resend', msg => msg.scene.enter('log'))
 bot.command('sendVidios', msg => {
-    id = users.filter(i => i.teleId === msg.message.from.id)
+    id = users.filter(i => i._teleId === msg.message.from.id)
     if (id.length >= 1){
         msg.scene.enter('sendVidios')
     } else {
