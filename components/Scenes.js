@@ -53,7 +53,7 @@ class SceneGen{
             console.log(users.filter(i => i._id === msg.message.from.id))
             await msg.scene.leave()
         })
-        sender.enter( msg => {
+        sender.enter(async msg => {
             n = users.filter(i => i._id === msg.message.from.id)
             console.log(n)
             if (n < config.get('CURS_DATA.links') && n == 0){
