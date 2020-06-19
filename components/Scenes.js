@@ -10,24 +10,21 @@ let log_data = {}
 let users = require("../DataBase/users.json");
 
 let transporter = nodemailer.createTransport({
-    pool: true,
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
+    service: "Gmail",
     auth: {
+        accessToken:'ya29.a0AfH6SMDUZhYtMFx3WhD_VS_OGUwz8sAvmnSiMrNva3e9LUp_4H-FyFnaXfeCK4DeeNreVzahDhUeNRB9fc6ESpmEnChx_tL1K5X4BOVqzsryTw2nBQtYKJ0Z0dPabD7B5pzMhMI58IS3jGLFHWlgsB2_tpEyw3TazX0',
         type: 'OAuth2',
         user: config.get('Admin.email'),
-        accessToken: 
-            "ya29.a0AfH6SMB6iptV9mriZj8lPIS1bjo9u7ORT_kMM59pkwc5gz3KkbpabWMCnnv4ZXcFNX0e_Y5FxZK8X4c7700ycYHE83vZ5GotbZWg3dtW14VEpgMwN0_TfIQNVnf65O2ksESRcBpvLQ3YR_vnFiS-HbkiPN_p7tDkjKs",
+        clientSecret: 'nF0_2UqoR6L8SOyj8kFpqJIK',
+        accessUrl: "https://oauth2.googleapis.com/token",
         refreshToken: 
             '1//04JGhz-fRuTfXCgYIARAAGAQSNwF-L9Irg6l94alIr1dcRkcBQ3Rmnlu3LG9F8fcs1iOUVWQciBahQ-ojnygIt6np5Jrvvq-uPOM',
         clientId:
             '671897396582-3266n9ohgifb4bq7mi4fvdtob017np00.apps.googleusercontent.com',
-        clientSecret: 'nF0_2UqoR6L8SOyj8kFpqJIK',
-        accessUrl: "https://oauth2.googleapis.com/token",
        },
       from: `Mailer Test <${config.get('Admin.email')}>`
 });
+
 transporter.verify((e, s) => {
     if (e) return console.log("ERORR:", e)
     transporter.on('token', token => {
