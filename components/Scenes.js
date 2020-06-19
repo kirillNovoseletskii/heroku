@@ -11,23 +11,26 @@ let users = require("../DataBase/users.json");
 
 let transporter = nodemailer.createTransport({
     pool: true,
-    service: 'Gmail',
+    service: 'gmail',
     auth: {
-        user: config.get('Admin.email'),
-        pass: config.get('Admin.password'), 
         type: 'OAuth2',
+        user: config.get('Admin.email'),
+        accessToken: 
+            "ya29.a0AfH6SMD5pLAffxCT-E4b7Im8eKNMFIwi8Ysg8zh2OjcXxR-jo_hrpYE70n9byP9lJYRtFse0iUjEjMi9rqetN9919nPrYG0b7F6fYZacB4SoPqInAOFn2AWimNMgrVB_iPZ7vzHq1ScssMr6uNu-HXwjRmYPL60Zdao",
         refreshToken: 
-            '1//04tU-vL7mwARUCgYIARAAGAQSNwF-L9IrLNIB47ZhEZhchjs-lRcEUJF_WgjpUzhVrTLixbSs9H8H89ptPTTARqeV9tJv_NFO1Wc',
+            '1//04pME5AxpY3yKCgYIARAAGAQSNwF-L9IrHAxRVNziC_qwR_AdbrJUJ4WB4MZzS78lCxWQQC6Nh1PhC_9opcA1GLs0bJcybPUVD58',
         clientId:
             '671897396582-3266n9ohgifb4bq7mi4fvdtob017np00.apps.googleusercontent.com',
         clientSecret: 'nF0_2UqoR6L8SOyj8kFpqJIK',
-      }
+        accessUrl: "https://oauth2.googleapis.com/token"
+       },
+      from: `Mailer Test <${config.get('Admin.email')}>`
 });
 transporter.verify((e, s) => {
     if (e) return console.log("ERORR:", e)
     console.log(s)
 })
-const sendEmail = rand_pass => transporter.sendMail({
+const sendEmail = (rand_pass, currEmail) => transporter.sendMail({
     from: config.get('Admin.email'),
     to: currEmail,
     subject: "Message from Node js",
@@ -67,7 +70,7 @@ class SceneGen{
 
             if (currEmail.includes('@') && secEmail.length < 1) {
                 try {
-                    await sendEmail(rand_pass)
+                    await sendEmail(rand_pass, currEmail)
                     log_data.email =  currEmail
                     await ctx.reply(`Мы отправили письмо с проверочный паролем на вашу почту, введите его(${rand_pass})`);
                     log_data.rand = rand_pass
@@ -105,7 +108,7 @@ class SceneGen{
                 user_data.n = 0
                 // user_data = withHiddenProps(user_data)
                 users.push(user_data); 
-                fs.writeFile("../DataBase/users.json", JSON.stringify(users, null, '    '), err => { 
+                fs.writeFile("./DataBase/users.json", JSON.stringify(users, null, '    '), err => { 
                     // Checking for errors 
                     if (err) throw err;  
                     console.log("Done writing"); // Success 
@@ -144,9 +147,9 @@ class SceneGen{
             await msg.scene.enter('forgot')
         })
         logPass.on('text', async msg => {
-            let users = require("../../DataBase/users.json");
-            console.log(log_data.currData[0].email)
-            const usrPass = users.filter(i => i.password === msg.message.text && i.email === log_data.currData[0].email)
+            let users = require("../DataBase/users.json");
+            const usrPass = users.filter(i => i._password === msg.message.text && i.email === log_data.currData[0].email)
+            console.log(log_data.currData[0].email, usrPass)
             if (usrPass.length < 1) {
                 await msg.reply('Ваш пароль не верный🔒');
                 await msg.scene.reenter()
