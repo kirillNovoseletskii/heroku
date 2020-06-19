@@ -45,22 +45,15 @@ class SceneGen{
         const sender = new Scene('sendVidios')
         let n = 0;
         sender.command('stop',async msg => {
-            fs.writeFile("./DataBase/users.json", JSON.stringify(users, null, '    '), err => { 
-                // Checking for errors 
-                if (err) throw err;  
-                console.log("Done writing"); // Success 
-            });
             console.log(users.filter(i => i._id === msg.message.from.id))
             await msg.scene.leave()
         })
         sender.enter(async msg => {
-            n = users.filter(i => i._id === msg.message.from.id)
-            console.log(n)
-            if (n < config.get('CURS_DATA.links') && n == 0){
+            if (n < config.get('CURS_DATA.links').length && n == 0){
                 let link = config.get('CURS_DATA.links')[n]
                 await msg.reply(link)
                 n++
-            } else if (n < config.get('CURS_DATA.links')){ 
+            } else if (n < config.get('CURS_DATA.links').length){ 
                 setTimeout(async () => {
                     await msg.reply(config.get('CURS_DATA.links')[n])
                     n++
