@@ -61,7 +61,7 @@ bot.command('stop', msg => {
 })
 const app = express()
 const PORT = 3001 || process.env.PORT
-app.get('', (reg, res) => {
+app.get('/reg', (reg, res) => {
     res.send('TELEGRAMM')
 })
 app.listen(PORT, () => console.log(PORT))
