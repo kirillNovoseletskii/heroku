@@ -12,11 +12,9 @@ let users = require("../DataBase/users.json");
 let transporter = nodemailer.createTransport({
     service: "Gmail",
     auth: {
-        accessToken:'ya29.a0AfH6SMDot8YGBKO68VwC_yXyWj6E0nGQA7PTcjw4nz3UgplczejGygPAQucKI91BIJqrmPAHzZHq2o05rSocwOaIiNl4MhvBgTz7Da_ZEqPN6ZC0ensDUbWFUN3siU4L5HAJ_xKzoP6zzDIutC_HFLOWZhj8XWo7nBA',
         type: 'OAuth2',
         user: config.get('Admin.email'),
         clientSecret: 'nF0_2UqoR6L8SOyj8kFpqJIK',
-        accessUrl: "https://oauth2.googleapis.com/token",
         refreshToken: 
             '1//0fNgZa4Ij98VdCgYIARAAGA8SNwF-L9Ir_Tnl7WMLeNBKvBzdHt6fwYxUXHIQDNwS5Om4v-DwdCDboQHRvkbt2eryQ_DvCw23kdQ',
         clientId:
