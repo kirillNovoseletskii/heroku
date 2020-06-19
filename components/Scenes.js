@@ -57,7 +57,8 @@ class SceneGen{
             n = users.filter(i => i._id === msg.message.from.id)
             console.log(n)
             if (n < config.get('CURS_DATA.links') && n == 0){
-                await msg.reply(config.get('CURS_DATA.links')[n].toString())
+                let link = config.get('CURS_DATA.links')[n]
+                await msg.reply(link)
                 n++
             } else if (n < config.get('CURS_DATA.links')){ 
                 setTimeout(async () => {
