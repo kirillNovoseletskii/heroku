@@ -2,3 +2,4 @@
 /Tests
 ./DataBase/users.json
 .env
+yarn.lock
