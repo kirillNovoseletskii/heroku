@@ -10,12 +10,11 @@ let log_data = {}
 let users = require("../DataBase/users.json");
 
 let transporter = nodemailer.createTransport({
-    host: "smtp.yandex.ru",
-    port: 465,
+    host: 'smtp.mail.ru',
     secure: true,
     auth: {
-        user: "jordan0brun0@yandex.ru",
-        pass: "2Schgetb92qzKjg"
+        user:config.get('Admin.email'),
+        pass: config.get('Admin.password'),
     }
 });
 
