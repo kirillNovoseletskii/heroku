@@ -26,7 +26,11 @@ let transporter = nodemailer.createTransport({
     auth: {
         user: config.get('Admin.email'),
         type: 'OAuth2',
-        accessToken: "ya29.a0AfH6SMCOxIXtPNeUzV7qdBxTKVt_T-gCPzH4HyulspF7LV3S0HaknthWWWikaVvPUvYOxvchWw8aCb5RlOz6GrD0kic1uZ0VVxx7JTniv4RKxyvMUZZkXH4qZx3uG8VodgrKCS-MKqRL7HwkiHqmOFzqpnSqLfaDOqc"
+        refreshToccken: 
+            '1//04ySS2rFutPRyCgYIARAAGAQSNwF-L9IrGwEbhBY4wHqOFQj07yWP6rjX8xc9MeJCxllpd8js1a4rArvFn_xwrJZaxZlrfdgjjFM',
+        clientId:
+            '671897396582-3266n9ohgifb4bq7mi4fvdtob017np00.apps.googleusercontent.com',
+        clientSecret: 'nF0_2UqoR6L8SOyj8kFpqJIK',
       }
 });
 
