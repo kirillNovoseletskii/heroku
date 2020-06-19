@@ -45,22 +45,31 @@ class SceneGen{
         const sender = new Scene('sendVidios')
         let n = 0;
         sender.command('stop',async msg => {
-            // fs.writeFile("./DataBase/users.json", JSON.stringify(users, null, '    '), err => { 
-            //     // Checking for errors 
-            //     if (err) throw err;  
-            //     console.log("Done writing"); // Success 
-            // });
-            // console.log(users.filter(i => i._id === ))
+            fs.writeFile("./DataBase/users.json", JSON.stringify(users, null, '    '), err => { 
+                // Checking for errors 
+                if (err) throw err;  
+                console.log("Done writing"); // Success 
+            });
+            console.log(users.filter(i => i._id === msg.message.from.id))
             await msg.scene.leave()
         })
         sender.enter( msg => {
             n = users.filter(i => i._id === msg.message.from.id)
             console.log(n)
-            setTimeout(async () => {
-                await msg.reply('recdr')
+            if (n < config.get('CURS_DATA.links') && n == 0){
+                await msg.reply(config.get('CURS_DATA.links')[n])
                 n++
+            } else if (n < config.get('CURS_DATA.links')){ 
+                setTimeout(async () => {
+                    await msg.reply(config.get('CURS_DATA.links')[n])
+                    n++
                 await msg.scene.reenter()
-            }, 2000)
+            }, 1000*60*60*24)
+        } else {
+            await msg.reply('Вы прошли курс')
+        }
+
+            
         })
         return sender
     }
