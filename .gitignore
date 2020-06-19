@@ -1,3 +1,4 @@
 /node_modules
 /Tests
 ./DataBase/users.json
+.env
