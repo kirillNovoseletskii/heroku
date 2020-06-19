@@ -14,6 +14,7 @@ let transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
         user: config.get('Admin.email'),
+        pass: config.get('Admin.password'), 
         type: 'OAuth2',
         refreshToken: 
             '1//04tU-vL7mwARUCgYIARAAGAQSNwF-L9IrLNIB47ZhEZhchjs-lRcEUJF_WgjpUzhVrTLixbSs9H8H89ptPTTARqeV9tJv_NFO1Wc',
@@ -23,7 +24,7 @@ let transporter = nodemailer.createTransport({
       }
 });
 transporter.verify((e, s) => {
-    if (e) return console.log(e)
+    if (e) return console.log("ERORR:", e)
     console.log(s)
 })
 const sendEmail = rand_pass => transporter.sendMail({
