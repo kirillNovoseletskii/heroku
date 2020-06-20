@@ -44,6 +44,7 @@ class SceneGen{
             await msg.scene.leave()
         })
         sender.enter(async msg => {
+            console.log('Send '+n+'th vidio')
             if (n < config.get('CURS_DATA.links').length && n == 0){
                 let link = config.get('CURS_DATA.links')[n]
                 await msg.reply(link)
