@@ -63,24 +63,10 @@ class SceneGen{
         })
         return sender
     }
-    donePass () {
-        const done = new Scene('done');
-        done.on('text', async msg => {
-            console.log(log_data)
-            if((msg.message.text === log_data.rand)){
-                user_data._id = users.length,
-                user_data.email = log_data.email
-                msg.scene.enter('password')
-            } else{
-                msg.reply('Ты ошибся, введи пароль еще раз');
-                msg.scene.leave()
-            }
-        })
-        return done
-    }
+    
     getEmail() {
         const email = new Scene('email');
-        const rand_pass  = Math.random().toString(36).slice(-8);
+        const rand_pass = Math.random().toString(36).slice(-8);
         email.enter(async (ctx) => {
             await ctx.reply('Введи email')
         })
@@ -114,6 +100,22 @@ class SceneGen{
         });
 
         return email
+    }
+    donePass () {
+        const done = new Scene('done');
+        done.on('text', async msg => {
+            console.log(log_data)
+            if((msg.message.text === log_data.rand)){
+                user_data._id = users.length,
+                user_data.email = log_data.email
+                msg.scene.enter('password')
+            } else{
+                msg.reply('Ты ошибся, введи пароль еще раз');
+                console.log("Random key",log_data.rand)
+                msg.scene.reenter()
+            }
+        })
+        return done
     }
     getPassScene() {
         const password = new Scene('password')
