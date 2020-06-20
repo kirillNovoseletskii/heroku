@@ -124,7 +124,7 @@ class SceneGen{
             if (currPass.length >= 8){
                 await ctx.reply('Чтобы войти напиши команду /LOG')               
                 user_data._password = currPass
-                user_datateleId = ctx.message.from.id
+                user_data._id = ctx.message.from.id
                 user_data.n = 0
                 // user_data = withHiddenProps(user_data)
                 users.push(user_data); 
