@@ -169,7 +169,7 @@ class SceneGen{
         logPass.on('text', async msg => {
             let users = require("../DataBase/users.json");
             const usrPass = users.filter(i => i._password === msg.message.text && i.email === log_data.currData[0].email)
-            console.log(log_data.currData[0].email, usrPass)
+            console.log('LOG PASSWORD',log_data.currData[0].email, usrPass)
             if (usrPass.length < 1) {
                 await msg.reply('Ваш пароль не верный🔒');
                 await msg.scene.reenter()
