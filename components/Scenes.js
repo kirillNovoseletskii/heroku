@@ -1,16 +1,25 @@
 const Scene = require('telegraf/scenes/base')
-const fs = require('fs');
 const config = require('config')
+const mongoose = require('mongoose');
+const Users = require('../models/userScema') // User Scema
 const nodemailer = require('nodemailer');
 const { Telegraf } = require('telegraf')
-var path = require('path');
+const bcrypt = require('bcryptjs') 
 
 const {Extra, Markup, Stage, session} = Telegraf
-
-let user_data = {}
 let log_data = {}
-let users = require("../DataBase/users.json");
+//////////
+// async function connectDB() {
+//     const mongoUri = 'mongodb+srv://Kirill:Users1234@telebot.lcjgv.mongodb.net/Users'
 
+//     await mongoose.connect(mongoUri, {
+//         useNewUrlParser: true
+//     })
+//     .then(() => console.log("SUCCESS CONNECT TO DB"))
+//     .catch(err => console.log("FAILED CONNECT TO DB", err))
+// }
+// connectDB()
+//////////
 let transporter = nodemailer.createTransport({
     host: 'smtp.mail.ru',
     secure: true,
@@ -37,48 +46,40 @@ const sendEmail = (rand_pass, currEmail) => transporter.sendMail({
 })
 class SceneGen{
     sendVidios() {
+        let n = 0
         const sender = new Scene('sendVidios')
-        let n = 0;
-        sender.command('stop',async msg => {
-            console.log(users.filter(i => i._id === msg.message.from.id))
-            await msg.scene.leave()
-        })
         sender.enter(async msg => {
-            console.log('Send '+n+'th vidio')
-            if (n < config.get('CURS_DATA.links').length && n == 0){
-                let link = config.get('CURS_DATA.links')[n]
-                await msg.reply(link)
-                n++
-            } else if (n < config.get('CURS_DATA.links').length){ 
-                setTimeout(async () => {
-                    await msg.reply(config.get('CURS_DATA.links')[n])
-                    n++
-                await msg.scene.reenter()
-            }, 1000*60*60*24)
-        } else {
-            await msg.reply('Вы прошли курс')
-        }
-
-            
+            const userTo = await Users.findOne({_teleId: msg.message.from.id});
+            const n = userTo.n
+            setTimeout(() => {
+                const date = new Date()
+                if (date.getHours() === 22 && date.getMinutes() === 0){
+                    msg.reply(config.get("CURS_DATA.links")[n])
+                    Users.findOneAndUpdate({}, {n: n+1})
+                }
+                msg.scene.reenter()
+            }, 1000)
         })
         return sender
     }
     
     getEmail() {
         const email = new Scene('email');
-        const rand_pass = Math.random().toString(36).slice(-8);
+        const rand_pass = Math.random().toString(36).slice(-8); // create random password 
         email.enter(async (ctx) => {
             await ctx.reply('Введи email')
         })
 
         email.on('text', async ctx => {
-            let currEmail = String(ctx.message.text)
-            const secEmail = users.filter(i => i.email === currEmail)
 
-            if (currEmail.includes('@') && secEmail.length < 1) {
+            let currEmail = String(ctx.message.text)
+
+            const secEmail = await Users.findOne({email: String(ctx.message.text)})
+            console.log(secEmail)
+            if (currEmail.includes('@') && secEmail === null) {
                 try {
                     await sendEmail(rand_pass, currEmail)
-                    log_data.email =  currEmail
+                    log_data.email = currEmail
                     await ctx.reply(`Мы отправили письмо с проверочный паролем на вашу почту, введите его`);
                     log_data.rand = rand_pass
                     await ctx.scene.enter('done');
@@ -106,8 +107,6 @@ class SceneGen{
         done.on('text', async msg => {
             console.log(log_data)
             if((msg.message.text === log_data.rand)){
-                user_data._id = users.length,
-                user_data.email = log_data.email
                 msg.scene.enter('password')
             } else{
                 msg.reply('Ты ошибся, введи пароль еще раз');
@@ -125,17 +124,14 @@ class SceneGen{
         password.on('text',async ctx => {
             const currPass = String(ctx.message.text)
             if (currPass.length >= 8){
-                await ctx.reply('Чтобы войти напиши команду /LOG')               
-                user_data._password = currPass
-                user_data._teleId = ctx.message.from.id
-                user_data.n = 0
-                // user_data = withHiddenProps(user_data)
-                users.push(user_data); 
-                fs.writeFile("./DataBase/users.json", JSON.stringify(users, null, '    '), err => { 
-                    // Checking for errors 
-                    if (err) throw err;  
-                    console.log("Done writing"); // Success 
-                });
+                await ctx.reply('Чтобы войти напиши команду /LOG')  
+                const hashdPass = await bcrypt.hash(currPass, 12)    
+
+                log_data.password = currPass
+                log_data._teleId = ctx.message.from.id
+                log_data.n = 0
+                
+                await Users.create(log_data)
                 await ctx.scene.leave()
             } else{
                 await ctx.reply('Длинна твоего пароля меньше 8')
@@ -148,19 +144,21 @@ class SceneGen{
         const log = new Scene('log')
         log.enter(async ctx => ctx.reply('Введи свою почту'))
         log.on('text',async msg => {
-            const usrMail = users.filter(i => i.email === msg.message.text)
-            if (usrMail.length < 1) {
+            log_data.email = msg.message.text
+            const user = await Users.findOne({email: msg.message.text});
+            if (user === null) {
                 await msg.reply('Такого пользователя нет❌, зарегистрируйся используя команду /REG\nили компанду /resend для повторного ввода')
                 await msg.scene.leave()
             } else {
-                log_data.currData = usrMail
+                log_data.logUser = user
+                console.log(log_data.logUser)
                 await msg.scene.enter('logPassword')
             }
         })
         return log;
     }
     logPassword() {
-        const logPass = new Scene('logPassword');
+        const logPass = new Scene('logPassword')
         logPass.enter(async ctx => ctx.reply('Введи свой пароль', Markup
         .keyboard(['/forgotPassword'])
         .oneTime()
@@ -170,10 +168,9 @@ class SceneGen{
             await msg.scene.enter('forgot')
         })
         logPass.on('text', async msg => {
-            let users = require("../DataBase/users.json");
-            const usrPass = users.filter(i => i._password === msg.message.text && i.email === log_data.currData[0].email)
-            console.log('LOG PASSWORD',log_data.currData[0].email, usrPass)
-            if (usrPass.length < 1) {
+            const ismatch = msg.message.text === log_data.logUser.password
+
+            if (!ismatch) {
                 await msg.reply('Ваш пароль не верный🔒');
                 await msg.scene.reenter()
             }else{
@@ -192,23 +189,24 @@ class SceneGen{
     }
     forgotPass() {
         const forgot = new Scene('forgot');
-        const rand_pass  = Math.random().toString(36).slice(-4);
         forgot.enter(msg => {
             msg.reply('Введи свою почту cнова')
         })
         forgot.on('text',async msg => {
-            const usrMail = users.filter(i => i.email === msg.message.text)
-            if (usrMail.length < 1) {
+            const userLog = await Users.findOne({email: log_data.email});
+            const usrMail = userLog.email
+            if (!userLog) {
                 await msg.reply('Такого пользователя нет❌, зарегистрируйся используя команду /REG\nили компанду /resend для повторного ввода')
                 await msg.scene.leave()
             } else {
                 await msg.reply(`Мы отправили пароль тебе на почту\n/LOG для входа`)
-                console.log(usrMail[0].email)
-                await sendEmail(usrMail[0]._password, usrMail[0].email)   
+                console.log(usrMail)
+                await sendEmail(userLog.password, usrMail)   
                 await msg.scene.leave()
             }
         })
         return forgot
     }
 }
+
 module.exports = SceneGen
