@@ -23,7 +23,7 @@ const forgot = currGen.forgotPass()
 const stage = new Stage([emailScene, passScene, logMail, logPass, done, sendVidios, forgot])
 // Connect to mongoDB
 async function connectDB() {
-    const mongoUri = 'mongodb+srv://Kirill:Users1234@telebot.lcjgv.mongodb.net/Users'
+    const mongoUri = 'mongodb+srv://Kirill:Users1234@telebot.lcjgv.mongodb.net/Users?ssl=true'
 
     await mongoose.connect(mongoUri, {
         useNewUrlParser: true, 
