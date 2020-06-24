@@ -1,12 +1,12 @@
 const Scene = require('telegraf/scenes/base')
 const config = require('config')
 const mongoose = require('mongoose');
-const Users = require('../models/userScema') // User Scema
 const nodemailer = require('nodemailer');
-const { Telegraf } = require('telegraf')
 const bcrypt = require('bcryptjs') 
-
+const { Telegraf } = require('telegraf')
 const {Extra, Markup, Stage, session} = Telegraf
+
+const Users = require('../models/userScema') // User Scema
 let log_data = {}
 //////////
 // async function connectDB() {
@@ -38,6 +38,7 @@ transporter.verify((e, s) => {
         console.log('Expires: %s', new Date(token.expires));
     });
 })
+
 const sendEmail = (rand_pass, currEmail) => transporter.sendMail({
     from: config.get('Admin.email'),
     to: currEmail,
@@ -55,7 +56,7 @@ class SceneGen{
                 const date = new Date()
                 if (date.getHours() === 22 && date.getMinutes() === 0){
                     msg.reply(config.get("CURS_DATA.links")[n])
-                    Users.findOneAndUpdate({}, {n: n+1})
+                    Users.findOneAndUpdate({_teleId: msg.message.from.id}, {n: n+1})
                 }
                 msg.scene.reenter()
             }, 1000)
@@ -121,11 +122,10 @@ class SceneGen{
         password.enter(async (ctx) => {
             await ctx.reply('Придумай пароль')
         })
-        password.on('text',async ctx => {
+        password.on('text',async ctx => { 
             const currPass = String(ctx.message.text)
             if (currPass.length >= 8){
                 await ctx.reply('Чтобы войти напиши команду /LOG')  
-                const hashdPass = await bcrypt.hash(currPass, 12)    
 
                 log_data.password = currPass
                 log_data._teleId = ctx.message.from.id
