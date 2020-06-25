@@ -7,6 +7,7 @@ const { Telegraf } = require('telegraf')
 const {Extra, Markup, Stage, session} = Telegraf
 const Users = require('../models/userScema') // User Scema
 let log_data = {}
+const date = new Date(Date.UTC(2020, 6, 25, 12, 58, 0, 0))
 //////////
 // async function connectDB() {
 //     const mongoUri = 'mongodb+srv://Kirill:Users1234@telebot.lcjgv.mongodb.net/Users'
@@ -52,7 +53,6 @@ class SceneGen{
             const userTo = await Users.findOne({_teleId: msg.message.from.id});
             const n = userTo.n
             setTimeout(() => {
-                const date = new Date(Date.UTC(2020, 6, 25, 12, 51, 0, 0))
                 console.log(date.getHours(), date.getMinutes())
                 if (date.getHours() === 22 && date.getMinutes() === 0){
                     console.log('Vidion n:', n)
