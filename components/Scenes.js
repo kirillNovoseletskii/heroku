@@ -5,7 +5,6 @@ const nodemailer = require('nodemailer');
 const bcrypt = require('bcryptjs') 
 const { Telegraf } = require('telegraf')
 const {Extra, Markup, Stage, session} = Telegraf
-
 const Users = require('../models/userScema') // User Scema
 let log_data = {}
 //////////
@@ -53,9 +52,9 @@ class SceneGen{
             const userTo = await Users.findOne({_teleId: msg.message.from.id});
             const n = userTo.n
             setTimeout(() => {
-                const date = new Date(Date.UTC())
+                const date = new Date(Date.UTC(2020, 6, 25, 12, 51, 0, 0))
                 console.log(date.getHours(), date.getMinutes())
-                if (date.getHours() === 12 && date.getMinutes() === 37){
+                if (date.getHours() === 22 && date.getMinutes() === 0){
                     console.log('Vidion n:', n)
                     msg.reply(config.get("CURS_DATA.links")[n])
                     Users.findOneAndUpdate({_teleId: msg.message.from.id}, {n: n+1})
