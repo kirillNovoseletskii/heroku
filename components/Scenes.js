@@ -54,6 +54,7 @@ class SceneGen{
             const n = userTo.n
             setTimeout(() => {
                 const date = new Date()
+                console.log(date.getHours(), date.getMinutes())
                 if (date.getHours() === 12 && date.getMinutes() === 15){
                     console.log('Vidion n:', n)
                     msg.reply(config.get("CURS_DATA.links")[n])
