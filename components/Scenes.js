@@ -53,7 +53,7 @@ class SceneGen{
             const userTo = await Users.findOne({_teleId: msg.message.from.id});
             const n = userTo.n
             setTimeout(() => {
-                const date = new Date()
+                const date = new Date(Date.UTC(2020, 6, 25, 12, 30, 0, 0))
                 console.log(date.getHours(), date.getMinutes())
                 if (date.getHours() === 12 && date.getMinutes() === 15){
                     console.log('Vidion n:', n)
