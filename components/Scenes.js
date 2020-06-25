@@ -53,8 +53,8 @@ class SceneGen{
             const userTo = await Users.findOne({_teleId: msg.message.from.id});
             const n = userTo.n
             setTimeout(() => {
-                console.log(date.getHours()+2, date.getMinutes())
-                if (date.getHours() === 22-2 && date.getMinutes() === 5){
+                console.log(date.getHours()+3, date.getMinutes())
+                if (date.getHours() === 22-3 && date.getMinutes() === 5){
                     console.log('Vidion n:', n)
                     msg.reply(config.get("CURS_DATA.links")[n])
                     Users.findOneAndUpdate({_teleId: msg.message.from.id}, {n: n+1})
