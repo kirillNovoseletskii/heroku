@@ -7,7 +7,7 @@ const { Telegraf } = require('telegraf')
 const {Extra, Markup, Stage, session} = Telegraf
 const Users = require('../models/userScema') // User Scema
 let log_data = {}
-const date = new Date(Date.UTC(2020, 6, 25, 12, 58, 0, 0))
+const date = new Date()
 //////////
 // async function connectDB() {
 //     const mongoUri = 'mongodb+srv://Kirill:Users1234@telebot.lcjgv.mongodb.net/Users'
