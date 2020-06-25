@@ -34,7 +34,7 @@ async function connectDB() {
     .then(() => console.log("SUCCESS CONNECT TO DB"))
     .catch(err => console.log("FAILED CONNECT TO DB", err))
 }
-connectDB()
+connectDB()  
 // BOT BODY
 var db = mongoose.connection
 const bot = new Telegraf(TOCKEN)
@@ -66,7 +66,6 @@ bot.command('stop', async ctx =>{
 bot.command('resend', msg => msg.scene.enter('log'))
 bot.command('sendVidios', async msg => {
     const usId = await Users.findOne({_teleId: msg.message.from.id})
-    console.log(usId)
     if (usId){
         msg.scene.enter('sendVidios')
     } else {
