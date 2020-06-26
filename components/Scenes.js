@@ -49,7 +49,6 @@ class SceneGen{
         let n = 0
         const sender = new Scene('sendVidios')
         sender.enter(async msg => {
-            await msg.reply('Рассылка видео включена')
             const date = new Date()
             const userTo = await Users.findOne({_teleId: msg.message.from.id});
             const n = userTo.n
