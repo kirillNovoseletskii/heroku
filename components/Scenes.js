@@ -46,21 +46,26 @@ const sendEmail = (rand_pass, currEmail) => transporter.sendMail({
 })
 class SceneGen{
     sendVidios() {
-        let n = 0
         const sender = new Scene('sendVidios')
+        let send = true
         sender.enter(async msg => {
             const date = new Date()
             const userTo = await Users.findOne({_teleId: msg.message.from.id});
             const n = userTo.n
-            setTimeout(async () => {
-                console.log(date.getHours()+3, date.getMinutes(), date.getSeconds())
-                if (date.getHours() === 10-3 && date.getMinutes() === 0 && date.getSeconds() === 0){
-                    console.log('Vidion n:', n)
-                    msg.reply(config.get("CURS_DATA.links")[n])
-                    await Users.findOneAndUpdate({_teleId: msg.message.from.id}, {n: n+1})
-                }
-                msg.scene.reenter()
-            }, 1000)
+            while(send){
+                sender.hears('stop', msg => {
+                    msg.reply('bot stopped');
+                    sender = false
+                })
+                setTimeout(async () => {
+                    console.log(date.getHours()+3, date.getMinutes(), date.getSeconds())
+                    if (date.getHours() === 10-3 && date.getMinutes() === 0 && date.getSeconds() === 0){
+                        console.log('Vidion n:', n)
+                        msg.reply(config.get("CURS_DATA.links")[n])
+                        await Users.findOneAndUpdate({_teleId: msg.message.from.id}, {n: n+1})
+                    }
+                }, 1000)
+            }
         })
         return sender
     }
