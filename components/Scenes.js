@@ -55,7 +55,7 @@ class SceneGen{
             setTimeout(async () => {
                 const date = new Date()
                 console.log(date.getHours()+3, date.getMinutes(), date.getSeconds())
-                    await sender.hears('stop', msg => {
+                    sender.hears('stop', msg => {
                     msg.reply('bot stopped');
                     sender = false
                 })
