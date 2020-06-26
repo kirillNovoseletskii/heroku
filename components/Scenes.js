@@ -58,9 +58,9 @@ class SceneGen{
                     console.log('Vidion n:', n)
                     msg.reply(config.get("CURS_DATA.links")[n])
                     await Users.findOneAndUpdate({_teleId: msg.message.from.id}, {n: n+1})
-                    msg.scene.reenter()
                 }
                 console.log(date.getHours()+3, date.getMinutes(), date.getSeconds())
+                msg.scene.reenter()
                 //     sender.hears('stop', msg => {
                 //     msg.reply('bot stopped');
                 //     sender = false
