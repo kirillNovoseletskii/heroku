@@ -49,22 +49,21 @@ class SceneGen{
         const sender = new Scene('sendVidios')
         let send = true
         sender.enter(async msg => {
-            const date = new Date()
+            
             const userTo = await Users.findOne({_teleId: msg.message.from.id});
             const n = userTo.n
             while(send){
-                setTimeout(async () => {
-                    console.log(date.getHours()+3, date.getMinutes(), date.getSeconds())
-                        sender.hears('stop', msg => {
-                        msg.reply('bot stopped');
-                        sender = false
-                    })
-                    if (date.getHours() === 10-3 && date.getMinutes() === 0 && date.getSeconds() === 0){
-                        console.log('Vidion n:', n)
-                        msg.reply(config.get("CURS_DATA.links")[n])
-                        await Users.findOneAndUpdate({_teleId: msg.message.from.id}, {n: n+1})
-                    }
-                }, 1000)
+                const date = new Date()
+                console.log(date.getHours()+3, date.getMinutes(), date.getSeconds())
+                    await sender.hears('stop', msg => {
+                    msg.reply('bot stopped');
+                    sender = false
+                })
+                if (date.getHours() === 10-3 && date.getMinutes() === 0 && date.getSeconds() === 0){
+                    console.log('Vidion n:', n)
+                    msg.reply(config.get("CURS_DATA.links")[n])
+                    await Users.findOneAndUpdate({_teleId: msg.message.from.id}, {n: n+1})
+                }
             }
         })
         return sender
