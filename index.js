@@ -72,10 +72,10 @@ bot.command('sendVidios', async msg => {
         msg.reply('Чтобы использовать эту функцию нужно зарегистрироваться')
     }
 })
-bot.command('stop', msg => {
-    msg.reply('Bot stoped')
-    msg.scene.leave()
-})
+// bot.command('stop', msg => {
+//     msg.reply('Bot stoped')
+//     // msg.scene.leave()
+// })
 bot.launch()
 const app = express()
 
