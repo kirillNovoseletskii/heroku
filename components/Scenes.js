@@ -52,7 +52,7 @@ class SceneGen{
         sender.enter(async msg => {
             const userTo = await Users.findOne({_teleId: msg.message.from.id});
             const n = userTo.n
-            setTimeout(() => {
+            setTimeout(async () => {
                 const date = new Date()
                 // console.log(date.getHours()+3, date.getMinutes(), date.getSeconds())
                     await sender.hears('stop', msg => {
