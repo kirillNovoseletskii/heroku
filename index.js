@@ -59,9 +59,9 @@ bot.command('REG',async ctx => {
 bot.command('LOG', async ctx =>{
     ctx.scene.enter('log')
 })
-bot.command('stop', async ctx =>{
-    ctx.reply('бот остановлен')
-})
+// bot.command('stop', async ctx =>{
+//     ctx.reply('бот остановлен')
+// })
 
 bot.command('resend', msg => msg.scene.enter('log'))
 bot.command('sendVidios', async msg => {
