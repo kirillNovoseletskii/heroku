@@ -76,10 +76,3 @@ bot.command('stop', msg => {
     msg.reply('Bot stoped')
     msg.scene.leave()
 })
-const app = express()
-app.get('/', (reg, res) => {
-    res.send('TELEGRAMM')
-})
-app.listen(port, () => console.log(port))
-// console.log('hello heroku')
-bot.launch()
