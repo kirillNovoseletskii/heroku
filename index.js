@@ -59,9 +59,6 @@ bot.command('REG',async ctx => {
 bot.command('LOG', async ctx =>{
     ctx.scene.enter('log')
 })
-// bot.command('stop', async ctx =>{
-//     ctx.reply('бот остановлен')
-// })
 
 bot.command('resend', msg => msg.scene.enter('log'))
 bot.command('sendVidios', async msg => {
@@ -72,10 +69,7 @@ bot.command('sendVidios', async msg => {
         msg.reply('Чтобы использовать эту функцию нужно зарегистрироваться')
     }
 })
-// bot.command('stop', msg => {
-//     msg.reply('Bot stoped')
-//     // msg.scene.leave()
-// })
+
 bot.launch()
 const app = express()
 
