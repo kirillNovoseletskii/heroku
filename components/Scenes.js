@@ -47,9 +47,8 @@ const sendEmail = (rand_pass, currEmail) => transporter.sendMail({
 class SceneGen{
     sendVidios() {
         const sender = new Scene('sendVidios')
-        let send = true
-
         sender.enter(async msg => {
+            let send = true
             const userTo = await Users.findOne({_teleId: msg.message.from.id});
             const n = userTo.n
             setTimeout(async () => {
@@ -64,6 +63,7 @@ class SceneGen{
                     sender.hears('stop',async msg => {
                         send = false
                         await msg.reply('bot stopped');
+                        await msg.scene.leave()
                 })
             }, 1000)  
         })
