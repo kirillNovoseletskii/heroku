@@ -76,3 +76,5 @@ bot.command('stop', msg => {
     msg.reply('Bot stoped')
     msg.scene.leave()
 })
+const app = express()
+app.listen(PORT)
