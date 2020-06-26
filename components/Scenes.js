@@ -61,6 +61,7 @@ class SceneGen{
                 console.log(date.getHours()+3, date.getMinutes(), date.getSeconds(), send)
                 msg.scene.reenter()
                     sender.hears('stop',async msg => {
+                        console.log('Stop')
                         send = false
                         await msg.reply('bot stopped');
                         await msg.scene.leave()
