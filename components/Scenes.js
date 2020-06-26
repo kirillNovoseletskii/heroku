@@ -60,7 +60,7 @@ class SceneGen{
                     await Users.findOneAndUpdate({_teleId: msg.message.from.id}, {n: n+1})
                     msg.scene.reenter()
                 }
-                // console.log(date.getHours()+3, date.getMinutes(), date.getSeconds())
+                console.log(date.getHours()+3, date.getMinutes(), date.getSeconds())
                 //     sender.hears('stop', msg => {
                 //     msg.reply('bot stopped');
                 //     sender = false
