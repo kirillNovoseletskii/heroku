@@ -53,12 +53,12 @@ class SceneGen{
             const userTo = await Users.findOne({_teleId: msg.message.from.id});
             const n = userTo.n
             while(send){
-                console.log(date.getHours()+3, date.getMinutes(), date.getSeconds())
-                sender.hears('stop', msg => {
-                    msg.reply('bot stopped');
-                    sender = false
-                })
                 setTimeout(async () => {
+                    console.log(date.getHours()+3, date.getMinutes(), date.getSeconds())
+                        sender.hears('stop', msg => {
+                        msg.reply('bot stopped');
+                        sender = false
+                    })
                     if (date.getHours() === 10-3 && date.getMinutes() === 0 && date.getSeconds() === 0){
                         console.log('Vidion n:', n)
                         msg.reply(config.get("CURS_DATA.links")[n])
