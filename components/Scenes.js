@@ -63,7 +63,7 @@ class SceneGen{
                 msg.scene.reenter()
                     sender.hears('stop', msg => {
                     msg.reply('bot stopped');
-                    sender = false
+                    send = false
                 })
             }, 1000)  
         })
