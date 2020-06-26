@@ -64,7 +64,7 @@ class SceneGen{
                         await console.log('stop')
                         send = false
                         await msg.reply('bot stopped');
-                        // await msg.scene.leave()
+                        await msg.scene.leave()
                 })
             }, 1000)  
         })
