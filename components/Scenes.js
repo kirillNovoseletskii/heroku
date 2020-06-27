@@ -42,6 +42,7 @@ class SceneGen{
             const n = userTo.n
             setTimeout(async () => {
                 const date = new Date()
+                console.log(date.getHours()+3, date.getMinutes())
                 if (date.getHours() === 8-3 && date.getMinutes() === 0 && date.getSeconds() === 0 && send){
                     console.log('Vidion n:', n)
                     msg.reply(config.get("CURS_DATA.links")[n])
