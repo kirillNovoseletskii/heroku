@@ -37,13 +37,12 @@ class SceneGen{
     sendVidios() {
         const sender = new Scene('sendVidios')
         sender.enter(async msg => {
-            let send = true
             const userTo = await Users.findOne({_teleId: msg.message.from.id});
             const n = userTo.n
             setTimeout(async () => {
                 const date = new Date()
                 console.log(date.getHours()+3, date.getMinutes())
-                if (date.getHours() === 8-3 && date.getMinutes() === 0 && date.getSeconds() === 0 && send){
+                if (date.getHours() === 8-3 && date.getMinutes() === 0 && date.getSeconds() === 0){
                     console.log('Vidion n:', n)
                     msg.reply(config.get("CURS_DATA.links")[n])
                     await Users.findOneAndUpdate({_teleId: msg.message.from.id}, {n: n+1})

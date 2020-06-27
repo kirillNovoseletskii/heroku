@@ -38,7 +38,6 @@ connectDB()
 // BOT BODY
 var db = mongoose.connection
 const bot = new Telegraf(TOCKEN)
-
 // bot.use(Telegraf.log())
 
 bot.use(session())
@@ -71,13 +70,17 @@ bot.command('sendVidios', async msg => {
     }
 })
 
-// bot.command('stop',async msg => {
-//     await console.log('stop')
-//     await msg.reply('Бот остановлен');
-//     await bot.stop()
-// })
+bot.command('stop',async msg => {
+    console.log('stop')
+    await msg.reply('Бот остановлен');
+    await bot.stop()
+})
 
 bot.launch()
 const app = express()
+
+setTimeout(() => {
+    app.get('/', () => console.log('POST'))
+}, 30000)
 
 app.listen(port)
