@@ -43,6 +43,7 @@ const bot = new Telegraf(TOCKEN)
 bot.use(session())
 bot.use(stage.middleware())
 bot.start((ctx) => {
+    bot.launch()
     console.log(`name: ${ctx.message.from.first_name}\nlast name: ${ctx.message.from.last_name}`)
     ctx.reply('Для регистрации - /REG\nДля входа - /LOG', Markup.keyboard(['/REG',  '/LOG'])
     .oneTime()
