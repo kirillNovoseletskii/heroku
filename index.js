@@ -71,11 +71,11 @@ bot.command('sendVidios', async msg => {
     }
 })
 
-bot.command('stop',async msg => {
-    await console.log('stop')
-    await msg.reply('Бот остановлен');
-    bot.stop()
-})
+// bot.command('stop',async msg => {
+//     await console.log('stop')
+//     await msg.reply('Бот остановлен');
+//     await bot.stop()
+// })
 
 bot.launch()
 const app = express()
