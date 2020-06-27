@@ -71,7 +71,7 @@ bot.command('sendVidios', async msg => {
     }
 })
 
-sender.command('stop',async msg => {
+bot.command('stop',async msg => {
     await console.log('stop')
     await msg.reply('Бот остановлен');
     bot.stop()
