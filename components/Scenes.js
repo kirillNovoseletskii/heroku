@@ -98,7 +98,6 @@ class SceneGen{
     donePass () {
         const done = new Scene('done');
         done.on('text', async msg => {
-            console.log(log_data)
             if((msg.message.text === log_data.rand)){
                 msg.scene.enter('password')
             } else{
@@ -143,7 +142,6 @@ class SceneGen{
                 await msg.scene.leave()
             } else {
                 log_data.logUser = user
-                console.log(log_data.logUser)
                 await msg.scene.enter('logPassword')
             }
         })
