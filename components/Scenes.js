@@ -7,18 +7,7 @@ const { Telegraf } = require('telegraf')
 const {Extra, Markup, Stage, session} = Telegraf
 const Users = require('../models/userScema') // User Scema
 let log_data = {}
-//////////
-// async function connectDB() {
-//     const mongoUri = 'mongodb+srv://Kirill:Users1234@telebot.lcjgv.mongodb.net/Users'
 
-//     await mongoose.connect(mongoUri, {
-//         useNewUrlParser: true
-//     })
-//     .then(() => console.log("SUCCESS CONNECT TO DB"))
-//     .catch(err => console.log("FAILED CONNECT TO DB", err))
-// }
-// connectDB()
-//////////
 let transporter = nodemailer.createTransport({
     host: 'smtp.mail.ru',
     secure: true,
