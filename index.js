@@ -62,6 +62,7 @@ bot.command('LOG', async ctx =>{
 })
 
 bot.command('resend', msg => msg.scene.enter('log'))
+bot.command('resendEmail', msg => msg.scene.enter('forgot'))
 bot.command('sendVidios', async msg => {
     const usId = await Users.findOne({_teleId: msg.message.from.id})
     if (usId){

@@ -196,7 +196,8 @@ class SceneGen{
                     await sendEmail(userLog.password, usrMail)   
                     await msg.scene.leave()
                 } catch (error) {
-                    msg.reply('Такого email нет❌, введи корректный email \n/resend для повторного ввода')
+                    msg.reply('Такого email нет❌, введи корректный email \n/resendEmail для повторного ввода')
+                    msg.scene.leave()
                 }
             }
         })
