@@ -47,14 +47,7 @@ class SceneGen{
                     msg.reply(config.get("CURS_DATA.links")[n])
                     await Users.findOneAndUpdate({_teleId: msg.message.from.id}, {n: n+1})
                 }
-                console.log(date.getHours()+3, date.getMinutes(), date.getSeconds(), send)
                 msg.scene.reenter()
-                    sender.command('stop',async msg => {
-                        await console.log('stop')
-                        send = false
-                        await msg.reply('bot stopped');
-                        await msg.scene.leave()
-                })
             }, 1000)  
         })
 
