@@ -79,8 +79,5 @@ bot.command('stop',async msg => {
 bot.launch()
 const app = express()
 
-setTimeout(() => {
-    app.get('/', () => console.log('POST'))
-}, 30000)
 
 app.listen(port)
