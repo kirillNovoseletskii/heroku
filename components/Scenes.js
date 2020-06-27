@@ -183,7 +183,7 @@ class SceneGen{
             msg.reply('Введи свою почту cнова')
         })
         forgot.on('text',async msg => {
-            const userLog = await Users.findOne({email: log_data.email});
+            const userLog = await Users.findOne({email: msg.message.text});
             const usrMail = userLog.email
             if (!userLog) {
                 await msg.reply('Такого пользователя нет❌, зарегистрируйся используя команду /REG\nили компанду /resend для повторного ввода')
