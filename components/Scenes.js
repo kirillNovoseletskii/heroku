@@ -27,12 +27,14 @@ transporter.verify((e, s) => {
     });
 })
 
-const sendEmail = (rand_pass, currEmail) => transporter.sendMail({
-    from: config.get('Admin.email'),
-    to: currEmail,
-    subject: "Message from Node js",
-    text: `Ваш проверочный код - ${rand_pass}`,
-})
+const sendEmail = (rand_pass, currEmail) => {
+    transporter.sendMail({
+        from: config.get('Admin.email'),
+        to: currEmail,
+        subject: "Message from Node js",
+        text: `Ваш проверочный код - ${rand_pass}`,
+    })
+}
 class SceneGen{
     sendVidios() {
         const sender = new Scene('sendVidios')
@@ -189,10 +191,13 @@ class SceneGen{
                 await msg.reply('Такого пользователя нет❌, зарегистрируйся используя команду /REG\nили компанду /resend для повторного ввода')
                 await msg.scene.leave()
             } else {
-                await msg.reply(`Мы отправили пароль тебе на почту\n/LOG для входа`)
-                console.log(usrMail)
-                await sendEmail(userLog.password, usrMail)   
-                await msg.scene.leave()
+                try {
+                    await msg.reply(`Мы отправили пароль тебе на почту\n/LOG для входа`)
+                    await sendEmail(userLog.password, usrMail)   
+                    await msg.scene.leave()
+                } catch (error) {
+                    msg.reply('Такого email нет❌, введи корректный email \n/resend для повторного ввода')
+                }
             }
         })
         return forgot
