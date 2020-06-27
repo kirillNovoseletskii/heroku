@@ -186,11 +186,8 @@ class SceneGen{
         })
         forgot.on('text',async msg => {
             const userLog = await Users.findOne({email: msg.message.text});
-            const usrMail = userLog.email
-            if (!userLog) {
-                await msg.reply('Такого пользователя нет❌, зарегистрируйся используя команду /REG\nили компанду /resend для повторного ввода')
-                await msg.scene.leave()
-            } else {
+            if (userLog) {
+                const usrMail = userLog.email
                 try {
                     await msg.reply(`Мы отправили пароль тебе на почту\n/LOG для входа`)
                     await sendEmail(userLog.password, usrMail)   
@@ -199,6 +196,9 @@ class SceneGen{
                     msg.reply('Такого email нет❌, введи корректный email \n/resendEmail для повторного ввода')
                     msg.scene.leave()
                 }
+            } else{
+                await msg.reply('Такого пользователя нет❌, зарегистрируйся используя команду /REG\nили компанду /resend для повторного ввода')
+                await msg.scene.leave()
             }
         })
         return forgot
