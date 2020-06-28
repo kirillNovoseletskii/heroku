@@ -172,7 +172,6 @@ class SceneGen{
                     .extra()
                 )
                 msg.scene.leave()
-                // await msg.scene.leave()
             }
         })
         return logPass;

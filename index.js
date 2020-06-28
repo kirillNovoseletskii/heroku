@@ -22,9 +22,10 @@ const sendVidios = currGen.sendVidios()
 const forgot = currGen.forgotPass()
 const stage = new Stage([emailScene, passScene, logMail, logPass, done, sendVidios, forgot])
 // Connect to mongoDB
-async function connectDB() {
-    const mongoUri = 'mongodb+srv://Kirill:Users1234@telebot.lcjgv.mongodb.net/Users'
+const usersUri = 'mongodb+srv://Kirill:Users1234@telebot.lcjgv.mongodb.net/Users'
+const vidiosUri = 'mongodb+srv://Kirill:Users1234@telebot.lcjgv.mongodb.net/Vidios'
 
+async function connectDB(mongoUri) {
     await mongoose.connect(mongoUri, {
         useNewUrlParser: true, 
         useUnifiedTopology: true, 
@@ -33,8 +34,9 @@ async function connectDB() {
     })
     .then(() => console.log("SUCCESS CONNECT TO DB"))
     .catch(err => console.log("FAILED CONNECT TO DB", err))
-}
-connectDB()  
+} 
+connectDB(usersUri)  
+connectDB(vidiosUri)  
 // BOT BODY
 var db = mongoose.connection
 const bot = new Telegraf(TOCKEN)
