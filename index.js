@@ -83,5 +83,8 @@ bot.command('sendVidios', async msg => {
 bot.launch()
 const app = express()
 
+app.get('/', () => {
+    app.send('hello')
+})
 
 app.listen(port)
