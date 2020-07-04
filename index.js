@@ -3,7 +3,9 @@ const Users = require('./models/userScema') // User Scema
 const express = require('express')
 const { Telegraf } = require('telegraf')
 const mongoose = require('mongoose');
+
 const config = require('config')
+
 const ScenesClass = require('./components/Scenes')
 const {enter, leave} = require('telegraf/stage')
 // Hipper params
@@ -24,7 +26,7 @@ const forgot = currGen.forgotPass()
 const stage = new Stage([emailScene, passScene, logMail, logPass, done, sendVidios, forgot])
 // Connect to mongoDB
 const usersUri = process.env.DB
-//''
+
 async function connectDB(mongoUri) {
     await mongoose.connect(mongoUri, {
         useNewUrlParser: true, 
