@@ -35,13 +35,24 @@ const sendEmail = (rand_pass, currEmail) => {
         text: `Ваш проверочный код - ${rand_pass}`,
     })
 }
+
+let send = true
+
 class SceneGen{
     sendVidios() {
         const sender = new Scene('sendVidios')
+
+        sender.command('/stop',async msg => {
+            send = false
+            await msg.reply('Рассылка видео остановлена⛔️')
+            await msg.scene.leave('sendVidios')
+        })
+
         sender.enter(async msg => {
             const userTo = await Users.findOne({_teleId: msg.message.from.id});
             const n = userTo.n
             setTimeout(async () => {
+                console.log(send)
                 const date = new Date()
                 console.log(date.getHours()+3, date.getMinutes())
                 if (date.getHours() === 8-3 && date.getMinutes() === 0 && date.getSeconds() === 0){
@@ -49,10 +60,13 @@ class SceneGen{
                     msg.reply(config.get("CURS_DATA.links")[n])
                     await Users.findOneAndUpdate({_teleId: msg.message.from.id}, {n: n+1})
                 }
-                msg.scene.reenter()
-            }, 1000)  
+                if(send) {
+                    await msg.scene.reenter()
+                } else{ 
+                    await msg.scene.leave('sendVidios')
+                }
+            }, 5000)  
         })
-
         return sender
     }
     

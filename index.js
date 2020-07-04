@@ -5,6 +5,7 @@ const { Telegraf } = require('telegraf')
 const mongoose = require('mongoose');
 const config = require('config')
 const ScenesClass = require('./components/Scenes')
+const {enter, leave} = require('telegraf/stage')
 // Hipper params
 const CURS = config.get('CURS_PASS')
 const TOCKEN = config.get('KEY')
@@ -32,8 +33,9 @@ async function connectDB(mongoUri) {
         useFindAndModify: false
     })
     .then(() => console.log("SUCCESS CONNECT TO DB"))
-    .catch(err => console.log("FAILED CONNECT TO DB", err))
+    .catch(err => console.log("FAILED CONNECT TO DB\n", err))
 } 
+
 connectDB(usersUri)  
 // BOT BODY
 var db = mongoose.connection
@@ -66,17 +68,12 @@ bot.command('resendEmail', msg => msg.scene.enter('forgot'))
 bot.command('sendVidios', async msg => {
     const usId = await Users.findOne({_teleId: msg.message.from.id})
     if (usId){
+        msg.reply('Видео будет присылаться каждый день в 22:00')
         msg.scene.enter('sendVidios')
     } else {
         msg.reply('Чтобы использовать эту функцию нужно зарегистрироваться')
     }
 })
-
-// bot.command('stop',async msg => {
-//     console.log('stop')
-//     await msg.reply('Бот остановлен');
-//     await bot.stop()
-// })
 
 bot.launch()
 const app = express()
