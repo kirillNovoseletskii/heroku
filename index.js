@@ -23,8 +23,8 @@ const sendVidios = currGen.sendVidios()
 const forgot = currGen.forgotPass()
 const stage = new Stage([emailScene, passScene, logMail, logPass, done, sendVidios, forgot])
 // Connect to mongoDB
-const usersUri = 'mongodb+srv://Kirill:Users1234@telebot.lcjgv.mongodb.net/Users'
-
+const usersUri = process.env.DB
+//''
 async function connectDB(mongoUri) {
     await mongoose.connect(mongoUri, {
         useNewUrlParser: true, 
