@@ -3,6 +3,7 @@ const Users = require('./models/userScema') // User Scema
 const express = require('express')
 const { Telegraf } = require('telegraf')
 const mongoose = require('mongoose');
+require('dotenv').config()
 
 const config = require('config')
 
