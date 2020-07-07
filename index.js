@@ -14,7 +14,7 @@ const CURS = config.get('CURS_PASS')
 const TOCKEN = config.get('KEY')
 const {Extra, Markup, Stage, session} = Telegraf
 user_data = {} // data of single user
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 3000;
 // Scenes
 const currGen = new ScenesClass()
 const emailScene = currGen.getEmail()
