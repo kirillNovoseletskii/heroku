@@ -52,9 +52,7 @@ class SceneGen{
             const userTo = await Users.findOne({_teleId: msg.message.from.id});
             const n = userTo.n
             setTimeout(async () => {
-                console.log(send)
                 const date = new Date()
-                console.log(date.getHours()+3, date.getMinutes())
                 if (date.getHours()+3 === 22 && date.getMinutes() === 0 && date.getSeconds() === 0){
                     console.log('Vidion n:', n)
                     msg.reply(config.get("CURS_DATA.links")[n])
@@ -65,7 +63,7 @@ class SceneGen{
                 } else{ 
                     await msg.scene.leave('sendVidios')
                 }
-            }, 5000)  
+            }, 1000)  
         })
         return sender
     }
