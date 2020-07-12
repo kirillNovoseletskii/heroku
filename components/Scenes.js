@@ -7,6 +7,7 @@ const { Telegraf } = require('telegraf')
 const {Extra, Markup, Stage, session} = Telegraf
 const Users = require('../models/userScema') // User Scema
 let log_data = {}
+const time = process.env.send_time;
 
 let transporter = nodemailer.createTransport({
     host: 'smtp.mail.ru',
@@ -53,7 +54,7 @@ class SceneGen{
             const n = userTo.n
             setTimeout(async () => {
                 const date = new Date()
-                if (date.getHours()+3 === 12 && date.getMinutes() === 0 && date.getSeconds() === 0){
+                if (date.getHours()+3 === time && date.getMinutes() === 0 && date.getSeconds() === 0){
                     console.log('Vidion n:', n)
                     msg.reply(config.get("CURS_DATA.links")[n])
                     await Users.findOneAndUpdate({_teleId: msg.message.from.id}, {n: n+1})

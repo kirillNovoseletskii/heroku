@@ -8,13 +8,13 @@ require('dotenv').config()
 const config = require('config')
 
 const ScenesClass = require('./components/Scenes')
-const {enter, leave} = require('telegraf/stage')
 // Hipper params
 const CURS = config.get('CURS_PASS')
 const TOCKEN = config.get('KEY')
-const {Extra, Markup, Stage, session} = Telegraf
+const {Markup, Stage, session} = Telegraf
 user_data = {} // data of single user
 var port = process.env.PORT || 3000;
+const time = process.env.send_time;
 // Scenes
 const currGen = new ScenesClass()
 const emailScene = currGen.getEmail()
@@ -27,7 +27,6 @@ const forgot = currGen.forgotPass()
 const stage = new Stage([emailScene, passScene, logMail, logPass, done, sendVidios, forgot])
 // Connect to mongoDB
 const usersUri = process.env.DB
-
 async function connectDB(mongoUri) {
     await mongoose.connect(mongoUri, {
         useNewUrlParser: true, 
@@ -71,7 +70,7 @@ bot.command('resendEmail', msg => msg.scene.enter('forgot'))
 bot.command('sendVidios', async msg => {
     const usId = await Users.findOne({_teleId: msg.message.from.id})
     if (usId){
-        msg.reply('Видео будет присылаться каждый день в 22:00')
+        msg.reply(`Видео будет присылаться каждый день в ${time}:00`)
         msg.scene.enter('sendVidios')
     } else {
         msg.reply('Чтобы использовать эту функцию нужно зарегистрироваться')
