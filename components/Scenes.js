@@ -54,10 +54,14 @@ class SceneGen{
             const n = userTo.n
             setTimeout(async () => {
                 const date = new Date()
-                if (date.getHours()+3 === Number(time) && date.getMinutes() === 0 && date.getSeconds() > 1 && date.getSeconds() < 4){
+                if (date.getHours()+3 === Number(time) && date.getMinutes() === 0 && date.getSeconds() > 1 && date.getSeconds() < 4 && n != config.get("CURS_DATA.links").length){
                     await console.log('Vidion n:', n)
                     await msg.reply(config.get("CURS_DATA.links")[n])
                     await Users.findOneAndUpdate({_teleId: msg.message.from.id}, {n: n+1})
+                }
+                else if(n == config.get("CURS_DATA.links").length){
+                    await msg.reply('Вы прошли курс')
+                    await msg.scene.leave('sendVidios')
                 }
                 if(send) {
                     await msg.scene.reenter()
